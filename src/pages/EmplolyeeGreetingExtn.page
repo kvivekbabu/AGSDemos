@@ -1,0 +1,7 @@
+<apex:page standardController="Employee__c" extensions="EmployeeControllerExtn1">
+    {!greeting} <p/>
+    <apex:form >
+        <apex:inputField value="{!Employee__c.First_Name__c}"/> <p/>
+        <apex:commandButton value="Save" action="{!save}"/>
+    </apex:form>
+</apex:page>

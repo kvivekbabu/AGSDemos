@@ -1,0 +1,19 @@
+<apex:page id="homePage" showHeader="false" title="{!$Label.site.site_login}">
+    <!-- Define Tab panel .css styles -->
+    <style>
+    .activeTab {background-color: #236FBD; color:white; background-image:none}
+    .inactiveTab { background-color: lightgrey; color:black; background-image:none}
+    </style>
+         <apex:composition template="{!$Site.Template}">
+        <apex:define name="body">  
+        <apex:tabPanel tabClass="activeTab" inactiveTabClass="inactiveTab">
+            <apex:tab label="CountrywisePopulationDetails">
+                <apex:include pageName="CountrywisePopulationDetails"/>
+            </apex:tab>
+            <apex:tab label="LinechartExample">
+                <apex:include pageName="LinechartExample"/>
+            </apex:tab>
+        </apex:tabPanel>        
+    </apex:define>
+  </apex:composition>   
+</apex:page>

@@ -1,0 +1,5 @@
+<apex:page controller="Person" showHeader="False" >
+<apex:form >
+<apex:inputText id="lblFirstName" label="First Name" value="{!FirstName}" />
+</apex:form>
+</apex:page>

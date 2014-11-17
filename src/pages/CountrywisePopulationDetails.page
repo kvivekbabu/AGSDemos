@@ -1,0 +1,75 @@
+<apex:page controller="CountrywisePopulationDetailsController" sidebar="false" showHeader="true" >
+    <script>
+        function retrieveChartData(callback) {
+          var lst= document.getElementById('{!$Component.theForm.thePage.theSection.slCountry}');
+          var countryCode= lst.options[lst.selectedIndex].value;
+          var countryText= lst.options[lst.selectedIndex].text;
+          //alert(countryCode);
+          
+          if(countryCode != '') {
+              var statusElement = document.getElementById('statusDisplay');
+              statusElement.innerHTML = "Loading chart for " + countryText;
+           
+               Visualforce.remoting.Manager.invokeAction(
+                   '{!$RemoteAction.CountrywisePopulationDetailsController.getRemoteData}',
+                   countryCode,
+                   function(result, event) {
+                       if(event.status && result && (result.constructor === Array)) {
+                           callback(result);
+                           RemotingPieChart.show();
+                       }
+                       else if (event.type === 'exception') {
+                           document.getElementById("remoteResponseErrors").innerHTML = event.message + 
+                               '<br/>' + event.where;
+                       }
+                       else {
+                           document.getElementById("remoteResponseErrors").innerHTML = event.message;
+                       }                   
+                   },
+                   { escape: true }
+               );
+            }
+        }
+        
+        function refreshRemoteChart() {
+            var statusElement = document.getElementById('statusDisplay');
+            statusElement.innerHTML = "Loading chart...";
+            retrieveChartData(callbackFn(statusElement));
+        }
+        
+        function callbackFn(statusElement){
+            return function(data){
+                RemotingPieChart.reload(data);
+                statusElement.innerHTML = 'Chart loaded successfully';
+            };
+        }            
+    </script> 
+    
+   <apex:form id="theForm" >
+   <apex:pageBlock title="Population Charts" id="thePage">
+        <apex:pageblockSection title="Input Parameters" id="theSection" >
+            <apex:selectList id="slCountry" size="1" value="{!CountryValue}" label="Country Name"
+                onchange="refreshRemoteChart();" >
+                <apex:selectOptions value="{!CountryList}"  />
+            </apex:selectList>        
+            <span id="statusDisplay"></span>
+            <span id="remoteResponseErrors"></span>
+        </apex:pageblockSection>
+        <apex:pageBlockSection title="Chart Result">
+            <apex:chart height="500" width="1000" data="retrieveChartData" 
+                name="RemotingPieChart" hidden="true">
+                <!--<apex:pieSeries dataField="data" labelField="name"/> -->
+                <apex:axis type="Numeric" position="left" fields="Population"
+                title="Population" grid="true"/>
+                <apex:axis type="Category" position="bottom" fields="Year" 
+                title="Year" grid="true" /> 
+                <apex:lineSeries axis="bottom" fill="true" xField="Year" yField="Population"
+                  markerType="cross" markerSize="4" markerFill="#FF0000"/>
+                <apex:legend position="right"  />
+                <!-- <apex:barSeries axis="bottom" xField="Year" yField="Population" orientation="vertical" highlightOpacity="1"/> -->
+            </apex:chart>  
+        </apex:pageBlockSection>
+
+    </apex:pageBlock> 
+    </apex:form> 
+</apex:page>

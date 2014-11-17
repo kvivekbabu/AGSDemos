@@ -1,0 +1,38 @@
+<apex:page controller="PickListController"  tabStyle="Employee__c" >
+    <script type="text/javascript">
+        function bindEmployeeNumber(labelID,selectListID){
+            var lst = document.getElementById(selectListID);
+            var selectedItemVal = lst.options[lst.selectedIndex].value;
+            document.getElementById(labelID).innerHTML = selectedItemVal;
+        }
+    </script>
+    <apex:form id="myForm">
+        <apex:pageblock Title="Pick List Demo" >
+            <apex:pageblockSection title="Retrieving Department Code using AJAX call" id="DeptSection" columns="2" > 
+                 <apex:selectList size="1" value="{!DeptPicklistValue}" onchange="AJAXRefreshDept();" label="Department Name" >
+                    <apex:selectOptions value="{!DeptPicklist}"  />
+                 </apex:selectList>                        
+                 <apex:actionStatus id="DeptCode" startText="Retrieving Department Code..." StopText="{!DeptPicklistValue}" layout="none"  />                                   
+            </apex:pageblockSection>
+            
+            <apex:pageblockSection title="Retrieving Employee Number using Javascript Call"  columns="2" >                
+                <apex:selectList id="mySelectList" size="1" value="{!EmpPicklistValue}" 
+                     onchange="bindEmployeeNumber('{!$Component.myID}','{!$Component.mySelectList}');" label="Employee Name" >
+                    <apex:selectOptions value="{!EmpPicklist}"  />
+                 </apex:selectList>
+                 <apex:outputLabel value="" id="myID"></apex:outputLabel>
+            </apex:pageblockSection>           
+            
+            <apex:pageblockSection title="Retrieving Employee Number using AJAX call" id="EmpSection"  columns="2"> 
+                     <apex:selectList size="1" value="{!EmpPicklistValue}" onchange="AJAXRefreshEmp();" label="Employee Name" >
+                        <apex:selectOptions value="{!EmpPicklist}"  />
+                     </apex:selectList>
+                     <apex:actionStatus id="EmployeeNumber" startText="Retrieving Employee Number..." StopText="{!EmpPicklistValue}"  />
+            </apex:pageblockSection>       
+
+            <apex:actionFunction name="AJAXRefreshDept" action="{!DummyDept}" rerender="DeptSection" status="DeptCode"/>                                                                  
+            <apex:actionFunction name="AJAXRefreshEmp" action="{!DummyEmp}" rerender="EmpSection" status="EmployeeNumber"/>             
+        </apex:pageblock>
+            
+    </apex:form>
+</apex:page>

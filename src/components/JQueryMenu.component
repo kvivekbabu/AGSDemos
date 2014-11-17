@@ -1,0 +1,27 @@
+<apex:component controller="MenuController" selfClosing="true">
+    <apex:stylesheet value="{!URLFOR($Resource.jqueryMenu, 'jqueryMenu.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.jqueryMenu, 'jquery-1.3.2.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.jqueryMenu, 'jqueryMenu.js')}" />
+
+    <apex:outputPanel layout="block" styleClass="container">
+        <apex:outputPanel layout="block" styleClass="jqheader">
+             <apex:panelGrid cellpadding="0" cellspacing="0" width="100%" border="0" columns="1" style="text-align: right;" id="Links" styleClass="disclaimer">
+              <apex:panelGroup rendered="{!AND(ISPICKVAL($User.UserType,'Guest'), $Site.LoginEnabled)}">
+                <apex:outputLink value="{!$Page.SiteLogin}">{!$Label.site.login_button}</apex:outputLink>
+                <apex:outputText value=" | "/>
+                <apex:outputLink value="{!$Page.ForgotPassword}">{!$Label.site.forgot_your_password_q}</apex:outputLink>
+                <apex:outputText value=" | " rendered="{!$Site.RegistrationEnabled}"/>
+                <apex:outputLink value="{!$Page.SiteRegister}" rendered="{!$Site.RegistrationEnabled}">{!$Label.site.new_user_q}</apex:outputLink>
+              </apex:panelGroup>
+              <apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}">{!$Label.site.logout}</apex:outputLink>
+            </apex:panelGrid>
+            <apex:dataList styleClass="topnav" value="{!topLevelItems}" var="topLevel">
+                <a href="{!topLevel.Action__c}">{!topLevel.Name}</a>
+                <apex:dataList styleClass="subnav" value="{!topLevel.Sub_Menu_Items__r}" var="nextLevel">
+                    <a href="{!nextLevel.Action__c}">{!nextLevel.Name}</a>
+                </apex:dataList>
+            </apex:dataList>
+        </apex:outputPanel>
+    </apex:outputPanel>
+
+</apex:component>

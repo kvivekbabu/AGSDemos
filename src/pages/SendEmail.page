@@ -1,0 +1,21 @@
+<apex:page controller="ExcelAttachment">
+   <apex:dataTable id="exportExcel" value="{!AccData}" var="Acc" rowClasses="odd,even" styleClass="tableClass">
+     <apex:facet name="Header"> My Table Header</apex:facet>
+     <apex:facet name="Footer"> My Table Footer</apex:facet>
+     
+     <apex:column >
+         <apex:facet name="Header"> Account Id </apex:facet>
+         <apex:facet name="Footer"> Account Footer</apex:facet>
+         <apex:outputText value="{!Acc.id}"></apex:outputText>              
+     </apex:column>     
+     <apex:column >
+         <apex:facet name="AccountName">Account Name</apex:facet>
+         <apex:facet name="Namefooter">NameFooter</apex:facet>
+         <apex:outputText value="{!Acc.name}"></apex:outputText>     
+     </apex:column>    
+     
+   </apex:dataTable>
+ <apex:form >
+  <apex:commandButton value="Send Email" action="{!sendexcelfile}"/>
+ </apex:form>
+</apex:page>

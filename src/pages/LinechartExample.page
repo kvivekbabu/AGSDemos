@@ -1,0 +1,17 @@
+<apex:page controller="ChartController" sidebar="true" standardStylesheets="false" setup="false" showheader="false" showHeader="true">
+    <apex:chart height="400" width="700" data="{!Data}" legend="true" theme="Salesforce">
+      <apex:axis type="Numeric" position="left" fields="data1" 
+        title="Opportunities Closed" grid="true"/>
+      <apex:axis type="Category" position="bottom" fields="name" 
+        title="Month of the Year" grid="true" />        
+        <apex:axis type="Numeric" position="right" fields="data3" 
+            title="Revenue (millions)"/>
+        <apex:lineSeries axis="bottom" fill="true" xField="name" yField="data1"
+          markerType="circle" markerSize="4" markerFill="#FF0000"/>
+        <apex:lineSeries axis="left" xField="name" yField="data2" 
+            markerType="cross" markerSize="4" markerFill="#8E35EF"/>            
+        <apex:barSeries orientation="vertical" axis="right" 
+            xField="name" yField="data3" colorsProgressWithinSeries="true"/>
+        <apex:legend position="right"/>
+       </apex:chart>
+</apex:page>

@@ -1,0 +1,14 @@
+<apex:page controller="EmployeeCustomUpsertController" tabstyle="Account">
+    <apex:form >
+        <apex:pageBlock mode="edit">
+            <apex:pageMessages />
+            <apex:pageBlockSection columns="2" >
+                <apex:inputField value="{!Emp.First_Name__c}"/> 
+                <apex:inputField value="{!Emp.Last_Name__c}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="Save" action="{!save}"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,5 @@
+<apex:page standardController="Employee__c" recordSetVar="employees">
+    <apex:repeat value="{!employees}" var="e">
+        {!e.Name} {!e.First_Name__c} <br />
+    </apex:repeat>
+</apex:page>

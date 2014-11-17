@@ -1,0 +1,46 @@
+<apex:page standardController="Employee__c" extensions="EmployeeAddExtnController" tabStyle="Employee__c" >
+    <script type="text/javascript">
+        function bindDeptCode(labelID,selectListID){
+            var lst = document.getElementById(selectListID);
+            var selectedItemVal = lst.options[lst.selectedIndex].value;
+            document.getElementById(labelID).innerHTML = selectedItemVal;
+        }
+    </script>
+    <apex:form >
+        <apex:sectionHeader title="Add Employee"  subtitle="Employee" />
+        <apex:pageBlock Title="Add Employee - Visual Force Demo" mode="detail" >
+            <apex:actionFunction action="{!save}" name="InsertRecord_JS" 
+                status="Status1" Rerender="statuses, msg" oncomplete="CallWebService_JS();"/>
+            <apex:actionFunction action="{!WebServiceCall}" name="CallWebService_JS" 
+                status="Status2" reRender="statuses, msg"/>
+            <apex:outputPanel id="statuses">
+                <b>
+                <apex:actionStatus id="Status1" startText="...Inserting Record Into DB..." />
+                <apex:actionStatus id="Status2" startText="...Calling Web Service..." />
+                </b>
+            </apex:outputPanel>
+            <apex:outputPanel id="msg">
+                <apex:pageMessages />
+            </apex:outputPanel>
+            <apex:pageblockSection columns="2" Title="Basic Information" collapsible="true">
+                <apex:inputField value="{!Emp.First_Name__c}"/> 
+                <apex:inputField value="{!Emp.Last_Name__c}"/> 
+                <apex:inputField value="{!Emp.Manager__c}"/>
+                <apex:inputField value="{!Emp.Phone__c}"/>                
+            </apex:pageblockSection>
+            <apex:pageblockSection columns="2" Title="Department Details">
+                <apex:selectList id="departmentList" size="1" value="{!Emp.Department__c}" 
+                     onchange="bindDeptCode('{!$Component.pbsDeptCode.lblDeptCode}','{!$Component.departmentList}');" label="Department" >
+                    <apex:selectOptions value="{!DeptPickList}"  />
+                </apex:selectList>
+                <apex:pageblockSectionItem id="pbsDeptCode" >
+                    <apex:outputLabel value="Department Code" />
+                    <apex:outputLabel value="" id="lblDeptCode" />
+                </apex:pageblockSectionItem>            
+            </apex:pageblockSection>
+            <apex:pageblockButtons location="bottom">
+                <apex:commandButton value="Save Employee" action="{!save}" onclick="InsertRecord_JS();return false;"/>            
+            </apex:pageblockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

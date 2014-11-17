@@ -1,0 +1,5 @@
+<apex:page showHeader="false" >
+    <apex:outputPanel layout="block">
+           <c:JQueryMenu />
+       </apex:outputPanel>
+</apex:page>

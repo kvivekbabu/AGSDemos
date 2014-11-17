@@ -1,0 +1,30 @@
+<apex:page controller="RestfulController">
+    <!--SelectListController -->
+    <apex:form id="MyForm">
+        <apex:pageblock Title="Pick List from JSON Service - Demo" id="PickListBlock">
+            <style>
+                body .bPageBlock .pbBody .red .pbSubheader{
+                    background-color: #E62930;
+                }
+            </style>
+            <apex:outputPanel styleClass="red" layout="block">
+            <apex:pageblockSection title="Location Information" id="LocationInfoSec" columns="2" >
+                <apex:selectList size="1" label="Country: " value="{!ContryListValue}" onchange="GetStatesAction();">
+                   <apex:selectoptions value="{!CountryList}"/>
+                </apex:selectList>
+                <apex:actionStatus id="CountryCode" startText="Retrieving Country Code..." StopText="{!ContryListValue}" layout="none"  />
+                
+                <apex:selectList size="1" value="{!StatesListValue}" label="State: " onchange="GetStateAction();">
+                   <apex:selectoptions value="{!StatesList}" />
+                </apex:selectList>
+                <apex:actionStatus id="StateCode" startText="Retrieving State Code..." StopText="{!StatesListValue}" layout="none"  />
+
+<!--                JSON: {!displayLabel}-->
+                
+            </apex:pageblockSection>
+            <apex:actionFunction name="GetStatesAction" action="{!GetStatesByCountryFromJSON}" rerender="LocationInfoSec" status="CountryCode"/>
+            <apex:actionFunction name="GetStateAction" action="{!GetStatesByCountryFromJSON}" rerender="LocationInfoSec" status="StateCode"/>
+            </apex:outputPanel>
+        </apex:pageblock>
+    </apex:form>
+</apex:page>

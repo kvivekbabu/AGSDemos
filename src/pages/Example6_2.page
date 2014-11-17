@@ -1,0 +1,9 @@
+<apex:page standardController="Employee__c">
+    The current employee is: {!Employee__c.Name}
+    <br />
+    <br />
+    <apex:form >
+        <apex:commandButton action="{!edit}" value="Edit {!Employee__c.Name}" />
+        <apex:commandButton action="{!list}" value="Go To List" />
+    </apex:form>
+</apex:page>
